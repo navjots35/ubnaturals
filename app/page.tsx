@@ -684,21 +684,24 @@ export default function Home() {
           />
           
           {/* Modal */}
-          <div className="absolute right-4 top-4 bottom-4 w-full max-w-2xl bg-white shadow-2xl modal-enter rounded-2xl overflow-hidden border border-gray-200">
+          <div className="absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white shadow-2xl modal-enter overflow-hidden border border-gray-200 
+                         md:right-4 md:top-4 md:bottom-4 md:rounded-2xl 
+                         sm:rounded-none sm:border-0">
             <div className="flex flex-col h-full">
               {/* Minimal Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                  <svg className="w-5 h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+              <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
                   </svg>
-                  Express Checkout
+                  <span className="hidden sm:inline">Express Checkout</span>
+                  <span className="sm:hidden">Checkout</span>
                 </h2>
                 <button 
                   onClick={() => setIsCheckoutOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-700"
+                  className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-700"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -716,23 +719,24 @@ export default function Home() {
 
               {/* Content */}
               <div className="flex-1 overflow-y-auto modal-content">
-                <div className="p-6 space-y-6">
+                <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
                   {/* Cart Summary - Critical Section */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                        <svg className="w-5 h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
-                        Order Summary
-                        <span className="text-sm font-normal text-gray-500">({(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                        <span className="hidden sm:inline">Order Summary</span>
+                        <span className="sm:hidden">Order</span>
+                        <span className="text-xs sm:text-sm font-normal text-gray-500">({(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                       </h3>
                       
                       {/* Edit Order Button */}
                       {!isEditingOrder ? (
                         <button 
                           onClick={startEditingOrder}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border-2 transition-all hover:shadow-md"
+                          className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border-2 transition-all hover:shadow-md"
                           style={{
                             color: 'var(--phthalo-green)',
                             borderColor: 'var(--phthalo-green)',
@@ -747,62 +751,64 @@ export default function Home() {
                             target.style.backgroundColor = 'white';
                           }}
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                           </svg>
-                          Modify Order
+                          <span className="hidden sm:inline">Modify Order</span>
+                          <span className="sm:hidden">Edit</span>
                         </button>
                       ) : (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 sm:gap-2">
                           <button 
                             onClick={cancelEditingOrder}
-                            className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-lg border-2 border-gray-300 text-gray-600 hover:bg-gray-50 transition-all"
+                            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border-2 border-gray-300 text-gray-600 hover:bg-gray-50 transition-all"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
-                            Cancel
+                            <span className="hidden sm:inline">Cancel</span>
                           </button>
                           <button 
                             onClick={saveOrderChanges}
-                            className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-lg border-2 transition-all hover:shadow-md"
+                            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border-2 transition-all hover:shadow-md"
                             style={{
                               color: 'white',
                               borderColor: 'var(--phthalo-green)',
                               backgroundColor: 'var(--phthalo-green)'
                             }}
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
-                            Save Changes
+                            <span className="hidden sm:inline">Save Changes</span>
+                            <span className="sm:hidden">Save</span>
                           </button>
                         </div>
                       )}
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       {/* Cart Items */}
                       {!isEditingOrder ? (
                         // Regular view
                         cartItems.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-lg overflow-hidden bg-white border border-gray-200">
+                          <div key={item.id} className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0">
                                 <img 
                                   src={item.image} 
                                   alt={item.name}
                                   className="w-full h-full object-cover"
                                 />
                               </div>
-                              <div>
-                                <h4 className="font-medium text-gray-900">{item.name}</h4>
-                                <p className="text-sm text-gray-600">{item.size} • Qty: {item.quantity}</p>
+                              <div className="min-w-0 flex-1">
+                                <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
+                                <p className="text-xs sm:text-sm text-gray-600">{item.size} • Qty: {item.quantity}</p>
                               </div>
                             </div>
-                            <div className="text-right flex items-center gap-2">
+                            <div className="text-right flex items-center gap-2 flex-shrink-0">
                               <div>
-                                <div className="font-semibold text-gray-900">₹{(item.price * item.quantity).toLocaleString()}</div>
+                                <div className="font-semibold text-gray-900 text-sm sm:text-base">₹{(item.price * item.quantity).toLocaleString()}</div>
                                 {item.quantity > 1 && (
                                   <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
                                 )}
@@ -813,27 +819,27 @@ export default function Home() {
                       ) : (
                         // Editing view
                         tempCartItems.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-lg overflow-hidden bg-white border border-gray-200">
+                          <div key={item.id} className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0">
                                 <img 
                                   src={item.image} 
                                   alt={item.name}
                                   className="w-full h-full object-cover"
                                 />
                               </div>
-                              <div>
-                                <h4 className="font-medium text-gray-900">{item.name}</h4>
-                                <p className="text-sm text-gray-600">{item.size}</p>
+                              <div className="min-w-0 flex-1">
+                                <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
+                                <p className="text-xs sm:text-sm text-gray-600">{item.size}</p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                               {/* Quantity Controls */}
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1 sm:gap-2">
                                 <button
                                   onClick={() => updateTempItemQuantity(item.id, item.quantity - 1)}
                                   disabled={item.quantity <= 1 || isOrderSummaryLoading}
-                                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                                  className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-colors ${
                                     item.quantity <= 1 || isOrderSummaryLoading
                                       ? 'bg-gray-100 text-gray-300 cursor-not-allowed border-2' 
                                       : 'bg-white border-2 text-gray-800 hover:text-white hover:border-green-500'
@@ -854,15 +860,15 @@ export default function Home() {
                                     }
                                   }}
                                 >
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                  <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                                   </svg>
                                 </button>
-                                <span className="w-8 text-center font-semibold text-gray-800">{item.quantity}</span>
+                                <span className="w-6 sm:w-8 text-center font-semibold text-gray-800 text-sm sm:text-base">{item.quantity}</span>
                                 <button
                                   onClick={() => updateTempItemQuantity(item.id, item.quantity + 1)}
                                   disabled={isOrderSummaryLoading}
-                                  className={`w-8 h-8 rounded-full bg-white border-2 text-gray-600 hover:text-white flex items-center justify-center transition-colors ${
+                                  className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white border-2 text-gray-600 hover:text-white flex items-center justify-center transition-colors ${
                                     isOrderSummaryLoading ? 'opacity-50 cursor-not-allowed' : ''
                                   }`}
                                   style={{
@@ -877,16 +883,16 @@ export default function Home() {
                                     target.style.backgroundColor = 'white';
                                   }}
                                 >
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                  <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
                                   </svg>
                                 </button>
                               </div>
                               
                               {/* Price and Remove */}
-                              <div className="text-right flex items-center gap-2">
+                              <div className="text-right flex flex-col sm:flex-row items-end sm:items-center gap-1 sm:gap-2">
                                 <div>
-                                  <div className="font-semibold text-gray-900">₹{(item.price * item.quantity).toLocaleString()}</div>
+                                  <div className="font-semibold text-gray-900 text-sm sm:text-base">₹{(item.price * item.quantity).toLocaleString()}</div>
                                   {item.quantity > 1 && (
                                     <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
                                   )}
@@ -895,7 +901,8 @@ export default function Home() {
                                   onClick={() => removeTempItem(item.id)}
                                   className="text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
                                 >
-                                  Remove
+                                  <span className="hidden sm:inline">Remove</span>
+                                  <span className="sm:hidden">×</span>
                                 </button>
                               </div>
                             </div>
@@ -918,20 +925,21 @@ export default function Home() {
                   </div>
 
                   {/* Upsell/Cross-sell Section */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                        <svg className="w-5 h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1.5 sm:gap-2">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        Save More with Packs & Combos
+                        <span className="hidden sm:inline">Save More with Packs & Combos</span>
+                        <span className="sm:hidden">Packs & Combos</span>
                       </h3>
                       {/* Bottle Size Toggle */}
-                      <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                      <div className="flex items-center bg-gray-100 rounded-lg p-1 self-start sm:self-auto">
                         <button
                           onClick={() => changeBottleSize('250ml')}
                           disabled={isOrderSummaryLoading}
-                          className={`px-3 py-1 text-xs font-semibold rounded transition-all ${
+                          className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded transition-all ${
                             bottleSize === '250ml'
                               ? 'bg-white text-gray-900 shadow-sm'
                               : 'text-gray-600 hover:text-gray-900'
@@ -942,7 +950,7 @@ export default function Home() {
                         <button
                           onClick={() => changeBottleSize('500ml')}
                           disabled={isOrderSummaryLoading}
-                          className={`px-3 py-1 text-xs font-semibold rounded transition-all ${
+                          className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded transition-all ${
                             bottleSize === '500ml'
                               ? 'bg-white text-gray-900 shadow-sm'
                               : 'text-gray-600 hover:text-gray-900'
@@ -955,7 +963,7 @@ export default function Home() {
                     
                     {/* Horizontal Scroller */}
                     <div className="overflow-x-auto pb-2">
-                      <div className="flex gap-3 min-w-max">
+                      <div className="flex gap-2 sm:gap-3 min-w-max">
                         {generateUpsells(bottleSize, isEditingOrder ? tempCartItems : cartItems).map((item) => {
                           const isSelected = selectedUpsells.includes(item.id);
                           const isApplied = isUpsellApplied(item.id);
@@ -965,7 +973,7 @@ export default function Home() {
                           return (
                           <div 
                             key={item.id} 
-                            className={`flex-shrink-0 w-44 border-2 rounded-lg p-3 transition-all ${
+                            className={`flex-shrink-0 w-36 sm:w-44 border-2 rounded-lg p-2 sm:p-3 transition-all ${
                               isClickable ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'
                             } ${
                               isApplied 
@@ -979,13 +987,13 @@ export default function Home() {
                             {/* Pack Layout */}
                             {item.type === 'pack' && (
                               <>
-                                <div className="flex items-center justify-center mb-2 relative">
-                                  <h4 className="font-semibold text-gray-900 text-sm text-center">{item.title}</h4>
+                                <div className="flex items-center justify-center mb-1.5 sm:mb-2 relative">
+                                  <h4 className="font-semibold text-gray-900 text-xs sm:text-sm text-center">{item.title}</h4>
                                   {(isSelected || isApplied) && (
-                                    <div className={`absolute right-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                                    <div className={`absolute right-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center ${
                                       isApplied ? 'bg-green-700' : 'bg-green-600'
                                     }`}>
-                                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                      <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                       </svg>
                                     </div>
@@ -993,9 +1001,9 @@ export default function Home() {
                                 </div>
                                 
                                 {/* Repeated Bottle Images */}
-                                <div className="flex items-center justify-center gap-1 mb-2 py-2">
+                                <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-1.5 sm:mb-2 py-1 sm:py-2">
                                   {Array.from({ length: (item as any).quantity }).map((_, index) => (
-                                    <div key={index} className="w-8 h-8 rounded overflow-hidden bg-white border border-gray-200">
+                                    <div key={index} className="w-6 h-6 sm:w-8 sm:h-8 rounded overflow-hidden bg-white border border-gray-200">
                                       <img 
                                         src={(item as any).product.image} 
                                         alt={(item as any).product.name}
@@ -1005,8 +1013,8 @@ export default function Home() {
                                   ))}
                                 </div>
                                 
-                                <div className="text-center mb-2">
-                                  <h5 className="font-medium text-gray-900 text-xs leading-tight">{(item as any).product.name}</h5>
+                                <div className="text-center mb-1.5 sm:mb-2">
+                                  <h5 className="font-medium text-gray-900 text-xs leading-tight truncate">{(item as any).product.name}</h5>
                                   <p className="text-xs text-gray-500">{(item as any).quantity} × {(item as any).product.size}</p>
                                 </div>
                               </>
@@ -1015,13 +1023,13 @@ export default function Home() {
                             {/* Combo Layout */}
                             {item.type === 'combo' && (
                               <>
-                                <div className="flex items-center justify-center mb-2 relative">
-                                  <h4 className="font-semibold text-gray-900 text-sm text-center">{item.title}</h4>
+                                <div className="flex items-center justify-center mb-1.5 sm:mb-2 relative">
+                                  <h4 className="font-semibold text-gray-900 text-xs sm:text-sm text-center">{item.title}</h4>
                                   {(isSelected || isApplied) && (
-                                    <div className={`absolute right-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                                    <div className={`absolute right-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center ${
                                       isApplied ? 'bg-green-700' : 'bg-green-600'
                                     }`}>
-                                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                      <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                       </svg>
                                     </div>
@@ -1029,16 +1037,16 @@ export default function Home() {
                                 </div>
                                 
                                 {/* Two Different Bottle Images */}
-                                <div className="flex items-center justify-center gap-2 mb-2 py-2">
-                                  <div className="w-8 h-8 rounded overflow-hidden bg-white border border-gray-200">
+                                <div className="flex items-center justify-center gap-1 sm:gap-2 mb-1.5 sm:mb-2 py-1 sm:py-2">
+                                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded overflow-hidden bg-white border border-gray-200">
                                     <img 
                                       src={(item as any).products[0].image} 
                                       alt={(item as any).products[0].name}
                                       className="w-full h-full object-cover"
                                     />
                                   </div>
-                                  <div className="text-sm font-bold text-green-600">+</div>
-                                  <div className="w-8 h-8 rounded overflow-hidden bg-white border border-gray-200">
+                                  <div className="text-xs sm:text-sm font-bold text-green-600">+</div>
+                                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded overflow-hidden bg-white border border-gray-200">
                                     <img 
                                       src={(item as any).products[1].image} 
                                       alt={(item as any).products[1].name}
@@ -1047,10 +1055,10 @@ export default function Home() {
                                   </div>
                                 </div>
                                 
-                                <div className="text-center mb-2">
+                                <div className="text-center mb-1.5 sm:mb-2">
                                   <div className="space-y-0.5">
                                     {(item as any).products.map((product: any, index: number) => (
-                                      <p key={index} className="text-xs text-gray-600 leading-tight">{product.name}</p>
+                                      <p key={index} className="text-xs text-gray-600 leading-tight truncate">{product.name}</p>
                                     ))}
                                   </div>
                                 </div>
@@ -1059,8 +1067,8 @@ export default function Home() {
                             
                             {/* Common Pricing */}
                                 <div className="text-center">
-                                  <div className="flex items-center justify-center gap-1">
-                                    <span className="text-sm font-bold" style={{color: 'var(--phthalo-green)'}}>
+                                  <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                                    <span className="text-xs sm:text-sm font-bold" style={{color: 'var(--phthalo-green)'}}>
                                       ₹{item.discountedPrice.toLocaleString()}
                                     </span>
                                     <span className="text-xs text-gray-500 line-through">
@@ -1095,12 +1103,12 @@ export default function Home() {
                     className="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-lg overflow-hidden"
                     onToggle={(e) => setIsShippingDetailsOpen((e.target as HTMLDetailsElement).open)}
                   >
-                    <summary className="cursor-pointer flex items-center justify-between p-4 text-gray-700 hover:text-gray-900 font-medium hover:bg-green-25 transition-colors group">
-                      <span className="flex items-center gap-2">
-                        <img src="/shipping-icon.svg" alt="Shipping" width={20} height={20} />
-                        Shipping & Billing Details
+                    <summary className="cursor-pointer flex items-center justify-between p-3 sm:p-4 text-gray-700 hover:text-gray-900 font-medium hover:bg-green-25 transition-colors group">
+                      <span className="flex items-center gap-1.5 sm:gap-2">
+                        <img src="/shipping-icon.svg" alt="Shipping" width={16} height={16} className="sm:w-5 sm:h-5" />
+                        <span className="text-sm sm:text-base">Shipping & Billing Details</span>
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2">
                         {isShippingDetailsOpen && (
                           <button 
                             onClick={(e) => {
@@ -1108,41 +1116,41 @@ export default function Home() {
                               e.stopPropagation();
                               // Handle edit action here
                             }}
-                            className="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 hover:text-gray-800 bg-white hover:bg-gray-50 border border-gray-200 rounded transition-colors"
+                            className="flex items-center gap-1 px-1.5 sm:px-2 py-1 text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-800 bg-white hover:bg-gray-50 border border-gray-200 rounded transition-colors"
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                             </svg>
-                            Edit Details
+                            <span className="hidden sm:inline">Edit Details</span>
+                            <span className="sm:hidden">Edit</span>
                           </button>
                         )}
-                        <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-gray-600 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>
                       </div>
                     </summary>
                       
-                      <div className="p-4 space-y-4">
+                      <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
                         {/* Contact Information */}
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center text-sm">
+                        <div className="space-y-2 sm:space-y-3">
+                          <div className="flex justify-between items-center text-xs sm:text-sm">
                             <span className="text-gray-600">Mobile</span>
                             <span className="font-semibold text-gray-900">+91 9999333966</span>
                           </div>
-                          <div className="flex justify-between items-center text-sm">
+                          <div className="flex justify-between items-center text-xs sm:text-sm">
                             <span className="text-gray-600">Email</span>
-                            <span className="font-semibold text-gray-900">puneettest@test.com</span>
+                            <span className="font-semibold text-gray-900 truncate ml-2">puneettest@test.com</span>
                           </div>
                         </div>
                         
                         {/* Billing Address */}
-                        <div className="border-t border-green-200 pt-3">
-                          <div className="flex justify-between items-start text-sm">
-                            <span className="text-gray-600 flex items-center gap-1">
-                            
+                        <div className="border-t border-green-200 pt-2 sm:pt-3">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start text-xs sm:text-sm gap-1 sm:gap-0">
+                            <span className="text-gray-600 flex items-center gap-1 font-medium">
                               Billing Address
                             </span>
-                            <div className="text-right">
+                            <div className="text-left sm:text-right">
                               <div className="font-semibold text-gray-900">Sridevi House Kollam</div>
                               <div className="text-gray-600">Kollam, Kerala, India</div>
                               <div className="text-gray-600">PIN: 691511</div>
@@ -1151,13 +1159,12 @@ export default function Home() {
                         </div>
                         
                         {/* Shipping Address */}
-                        <div className="border-t border-green-200 pt-3">
-                          <div className="flex justify-between items-start text-sm">
-                            <span className="text-gray-600 flex items-center gap-1">
-                             
+                        <div className="border-t border-green-200 pt-2 sm:pt-3">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start text-xs sm:text-sm gap-1 sm:gap-0">
+                            <span className="text-gray-600 flex items-center gap-1 font-medium">
                               Shipping Address
                             </span>
-                            <div className="text-right">
+                            <div className="text-left sm:text-right">
                               <div className="font-semibold text-gray-900">Sridevi House Kollam</div>
                               <div className="text-gray-600">Kollam, Kerala, India</div>
                               <div className="text-gray-600">PIN: 691511</div>
@@ -1176,51 +1183,51 @@ export default function Home() {
                       <div className="space-y-4">
                         
                         
-                          <div className="bg-gradient-to-br from-green-50 to-white p-4 rounded-lg border border-green-200">
+                          <div className="bg-gradient-to-br from-green-50 to-white p-3 sm:p-4 rounded-lg border border-green-200">
                           
                           {/* Your Savings Breakdown */}
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-2 pb-2 border-b border-green-200">
-                              <img src="/dollar-icon.svg" alt="Savings" width={20} height={20} />
-                              <h4 className="font-medium text-gray-800">Your Savings Breakdown</h4>
+                          <div className="space-y-2 sm:space-y-3">
+                            <div className="flex items-center gap-1.5 sm:gap-2 pb-2 border-b border-green-200">
+                              <img src="/dollar-icon.svg" alt="Savings" width={16} height={16} className="sm:w-5 sm:h-5" />
+                              <h4 className="font-medium text-gray-800 text-sm sm:text-base">Your Savings Breakdown</h4>
                             </div>
                             
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                               <div className="flex justify-between">
                                 <span className="text-gray-600">Subtotal ({(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                                 <span className="font-semibold text-green-600">₹{pricing.subtotal.toLocaleString()}</span>
                               </div>
                               
-                              <div className="space-y-1 border-l-4 border-green-500 pl-3 bg-green-25">
+                              <div className="space-y-1 border-l-4 border-green-500 pl-2 sm:pl-3 bg-green-25">
                                 <div className="flex justify-between text-green-700">
-                                  <span>✓ Base Discount ({pricing.discounts.base}%) - {(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} bottle{(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0) > 1 ? 's' : ''}</span>
-                                  <span>-₹{Math.round(pricing.subtotal * pricing.discounts.base / 100)}</span>
+                                  <span className="text-xs sm:text-sm">✓ Base Discount ({pricing.discounts.base}%) - {(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} bottle{(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0) > 1 ? 's' : ''}</span>
+                                  <span className="text-xs sm:text-sm">-₹{Math.round(pricing.subtotal * pricing.discounts.base / 100)}</span>
                                 </div>
                                 <div className="flex justify-between text-green-700">
-                                  <span>✓ {userState?.isReturning ? 'Loyalty' : 'Welcome'} Discount ({pricing.discounts.loyalty}%)</span>
-                                  <span>-₹{Math.round(pricing.subtotal * pricing.discounts.loyalty / 100)}</span>
+                                  <span className="text-xs sm:text-sm">✓ {userState?.isReturning ? 'Loyalty' : 'Welcome'} Discount ({pricing.discounts.loyalty}%)</span>
+                                  <span className="text-xs sm:text-sm">-₹{Math.round(pricing.subtotal * pricing.discounts.loyalty / 100)}</span>
                                 </div>
                                 {appliedCoupon && (
                                   <div className="flex justify-between text-green-700">
-                                    <span>✓ Coupon ({appliedCoupon.code})</span>
-                                    <span>-₹{Math.round(pricing.couponDiscount)}</span>
+                                    <span className="text-xs sm:text-sm">✓ Coupon ({appliedCoupon.code})</span>
+                                    <span className="text-xs sm:text-sm">-₹{Math.round(pricing.couponDiscount)}</span>
                                   </div>
                                 )}
                               </div>
                               
-                              <div className="flex justify-between text-sm text-gray-600">
+                              <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                                 <span>Shipping</span>
                                 <span className={pricing.shippingFee === 0 ? 'text-green-600 font-semibold' : ''}>
                                   {pricing.shippingFee === 0 ? 'FREE' : `₹${pricing.shippingFee}`}
                                 </span>
                               </div>
                               
-                              <div className="flex justify-between text-sm text-gray-600">
+                              <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                                 <span>GST (5%)</span>
                                 <span>₹{pricing.gst}</span>
                               </div>
                               
-                              <div className="border-t pt-2 flex justify-between font-bold text-lg text-gray-900">
+                              <div className="border-t pt-2 flex justify-between font-bold text-base sm:text-lg text-gray-900">
                                 <span>Total</span>
                                 <span style={{color: 'var(--phthalo-green)'}}>₹{pricing.finalTotal.toLocaleString()}</span>
                               </div>
@@ -1232,25 +1239,25 @@ export default function Home() {
                   })()}
 
                   {/* Coupon Code Section */}
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-lg p-4">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-lg p-3 sm:p-4">
                       
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2 pb-2 border-b border-green-200">
-                          <img src="/coupon-icon.svg" alt="Coupon" width={20} height={20} />
-                          <h4 className="font-medium text-gray-800">Have a Coupon Code?</h4>
+                      <div className="space-y-2 sm:space-y-3">
+                        <div className="flex items-center gap-1.5 sm:gap-2 pb-2 border-b border-green-200">
+                          <img src="/coupon-icon.svg" alt="Coupon" width={16} height={16} className="sm:w-5 sm:h-5" />
+                          <h4 className="font-medium text-gray-800 text-sm sm:text-base">Have a Coupon Code?</h4>
                         </div>
                         
                         {!appliedCoupon ? (
-                          <div className="space-y-3">
-                            <div className="flex gap-3">
+                          <div className="space-y-2 sm:space-y-3">
+                            <div className="flex gap-2 sm:gap-3">
                               <input
                                 type="text"
                                 value={couponCode}
                                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                                 placeholder="Enter coupon code"
                                 disabled={isOrderSummaryLoading}
-                                className={`flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 ${
+                                className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 text-sm sm:text-base ${
                                   isOrderSummaryLoading ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
                                 onKeyPress={(e) => e.key === 'Enter' && !isOrderSummaryLoading && applyCoupon()}
@@ -1258,7 +1265,7 @@ export default function Home() {
                               <button
                                 onClick={applyCoupon}
                                 disabled={!couponCode.trim() || isOrderSummaryLoading}
-                                className="px-6 py-3 font-semibold rounded-lg border-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-4 sm:px-6 py-2 sm:py-3 font-semibold rounded-lg border-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                                 style={{
                                   color: couponCode.trim() ? 'white' : 'var(--phthalo-green)',
                                   backgroundColor: couponCode.trim() ? 'var(--phthalo-green)' : 'white',
@@ -1270,8 +1277,8 @@ export default function Home() {
                             </div>
                             
                             {couponError && (
-                              <div className="flex items-center gap-2 text-red-600 text-sm">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                              <div className="flex items-center gap-2 text-red-600 text-xs sm:text-sm">
+                                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                 </svg>
                                 {couponError}
@@ -1280,15 +1287,15 @@ export default function Home() {
                           </div>
                         ) : (
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                 </svg>
                               </div>
                               <div>
-                                <p className="font-semibold text-green-800">{appliedCoupon.code} Applied!</p>
-                                <p className="text-sm text-green-600">
+                                <p className="font-semibold text-green-800 text-sm sm:text-base">{appliedCoupon.code} Applied!</p>
+                                <p className="text-xs sm:text-sm text-green-600">
                                   {appliedCoupon.type === 'percentage' 
                                     ? `${appliedCoupon.discount}% discount` 
                                     : `₹${appliedCoupon.discount} off`
@@ -1303,7 +1310,7 @@ export default function Home() {
                                 isOrderSummaryLoading ? 'opacity-50 cursor-not-allowed' : ''
                               }`}
                             >
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                               </svg>
                             </button>
@@ -1343,58 +1350,67 @@ export default function Home() {
                   return (
                     <>
                       {/* Payment Method Selector */}
-                      <div className="px-6 py-4 border-b border-white/20">
-                        <div className="flex items-center gap-4">
+                      <div className="px-3 sm:px-6 py-3 sm:py-4 border-b border-white/20">
+                        <div className="flex items-center gap-2 sm:gap-4">
                           {/* Payment Method Buttons */}
-                          <div className="flex gap-3 flex-1">
+                          <div className="flex gap-2 sm:gap-3 flex-1">
                             <button
                               onClick={() => setPaymentMethod('razorpay')}
-                              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 transition-all ${
+                              className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 rounded-lg border-2 transition-all ${
                                 paymentMethod === 'razorpay'
                                   ? 'border-white bg-white text-green-700 shadow-lg'
                                   : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10'
                               }`}
                             >
-                              <div className={`w-3 h-3 rounded-full border-2 ${
+                              <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 ${
                                 paymentMethod === 'razorpay' ? 'border-green-500 bg-green-500' : 'border-white/60'
                               }`}></div>
-                              <span className="font-semibold text-sm">Razorpay</span>
+                              <span className="font-semibold text-xs sm:text-sm">Razorpay</span>
                               {paymentMethod === 'razorpay' && (
-                                <span className="bg-green-600 text-white px-2 py-0.5 text-xs font-bold rounded">RECOMMENDED</span>
+                                <span className="bg-green-600 text-white px-1 sm:px-2 py-0.5 text-xs font-bold rounded hidden sm:inline">RECOMMENDED</span>
                               )}
                             </button>
                             
                             <button
                               onClick={() => setPaymentMethod('cod')}
-                              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 transition-all ${
+                              className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 rounded-lg border-2 transition-all ${
                                 paymentMethod === 'cod'
                                   ? 'border-orange-300 bg-orange-100 text-orange-800 shadow-lg'
                                   : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10'
                               }`}
                             >
-                              <div className={`w-3 h-3 rounded-full border-2 ${
+                              <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 ${
                                 paymentMethod === 'cod' ? 'border-orange-500 bg-orange-500' : 'border-white/60'
                               }`}></div>
-                              <span className="font-semibold text-sm">Cash on Delivery</span>
+                              <span className="font-semibold text-xs sm:text-sm">
+                                <span className="hidden sm:inline">Cash on Delivery</span>
+                                <span className="sm:hidden">COD</span>
+                              </span>
                             </button>
                           </div>
                         </div>
                         
                         {/* Optimized Messaging for Selected Method */}
-                        <div className="mt-3">
+                        <div className="mt-2 sm:mt-3">
                           {paymentMethod === 'razorpay' ? (
-                            <div className="flex items-center gap-2 text-sm text-green-100 bg-green-600/30 px-3 py-2 rounded-lg backdrop-blur-sm border border-green-400/30">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-green-100 bg-green-600/30 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg backdrop-blur-sm border border-green-400/30">
+                              <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                               </svg>
-                              <span className="font-semibold">Great choice! You save ₹{Math.round(totalSavings)} • FREE shipping • Maximum discounts • Faster delivery</span>
+                              <span className="font-semibold">
+                                <span className="hidden sm:inline">Great choice! You save ₹{Math.round(totalSavings)} • FREE shipping • Maximum discounts • Faster delivery</span>
+                                <span className="sm:hidden">Save ₹{Math.round(totalSavings)} • FREE shipping • Max discounts</span>
+                              </span>
                             </div>
                           ) : (
-                            <div className="flex items-center gap-2 text-sm text-orange-100 bg-orange-600/30 px-3 py-2 rounded-lg backdrop-blur-sm border border-orange-400/30">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-orange-100 bg-orange-600/30 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg backdrop-blur-sm border border-orange-400/30">
+                              <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                               </svg>
-                              <span className="font-semibold">You&apos;re paying ₹{Math.round(totalSavings)} extra • ₹99 shipping fee • Switch to Prepaid to save!</span>
+                              <span className="font-semibold">
+                                <span className="hidden sm:inline">You&apos;re paying ₹{Math.round(totalSavings)} extra • ₹99 shipping fee • Switch to Prepaid to save!</span>
+                                <span className="sm:hidden">₹{Math.round(totalSavings)} extra • ₹99 shipping • Switch to save!</span>
+                              </span>
                             </div>
                           )}
                         </div>
@@ -1404,25 +1420,25 @@ export default function Home() {
                 })()}
 
                 {/* Dynamic Payment Button */}
-                <div className="p-6 pb-4 bg-white/5 backdrop-blur-sm">
+                <div className="p-3 sm:p-6 pb-3 sm:pb-4 bg-white/5 backdrop-blur-sm">
                   {(() => {
                     const pricing = calculatePricing();
                     return (
-                      <div className="space-y-3">
+                      <div className="space-y-2 sm:space-y-3">
                         <button 
-                          className="w-full text-white py-4 rounded-xl font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all shadow-2xl relative overflow-hidden border-2 border-white/20 hover:border-white/40 hover:shadow-3xl transform hover:scale-[1.02]"
+                          className="w-full text-white py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all shadow-2xl relative overflow-hidden border-2 border-white/20 hover:border-white/40 hover:shadow-3xl transform hover:scale-[1.02]"
                           style={{
                             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
                             color: 'var(--phthalo-green)'
                           }}
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-200/30 to-transparent -translate-x-full animate-shimmer"></div>
-                          <div className="relative flex items-center justify-center gap-3">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                          <div className="relative flex items-center justify-center gap-2 sm:gap-3">
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                             </svg>
                             <span>Pay ₹{pricing.finalTotal.toLocaleString()} Securely</span>
-                            <div className="w-2 h-2 rounded-full animate-pulse" style={{backgroundColor: 'var(--phthalo-green)'}}></div>
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse" style={{backgroundColor: 'var(--phthalo-green)'}}></div>
                           </div>
                         </button>
                         <p className="text-center text-xs text-white/70">
@@ -1434,25 +1450,34 @@ export default function Home() {
                 </div>
 
                 {/* Security Trust Indicators - Bottom of Sticky Bar */}
-                <div className="px-6 py-3 bg-white/10 backdrop-blur-sm border-t border-white/20">
-                  <div className="flex items-center justify-center gap-6 text-xs">
-                    <div className="flex items-center gap-2 text-white/80">
-                      <svg className="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                <div className="px-3 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-sm border-t border-white/20">
+                  <div className="flex items-center justify-center gap-3 sm:gap-6 text-xs">
+                    <div className="flex items-center gap-1 sm:gap-2 text-white/80">
+                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                       </svg>
-                      <span className="font-medium">256-bit SSL</span>
+                      <span className="font-medium text-xs">
+                        <span className="hidden sm:inline">256-bit SSL</span>
+                        <span className="sm:hidden">SSL</span>
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2 text-white/80">
-                      <svg className="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <div className="flex items-center gap-1 sm:gap-2 text-white/80">
+                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                       </svg>
-                      <span className="font-medium">Bank-level Security</span>
+                      <span className="font-medium text-xs">
+                        <span className="hidden sm:inline">Bank-level Security</span>
+                        <span className="sm:hidden">Secure</span>
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2 text-white/80">
-                      <svg className="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <div className="flex items-center gap-1 sm:gap-2 text-white/80">
+                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
-                      <span className="font-medium">PCI Compliant</span>
+                      <span className="font-medium text-xs">
+                        <span className="hidden sm:inline">PCI Compliant</span>
+                        <span className="sm:hidden">PCI</span>
+                      </span>
                     </div>
                   </div>
                 </div>
