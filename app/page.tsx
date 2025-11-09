@@ -835,7 +835,7 @@ export default function Home() {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
+                            <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
                               {/* Quantity Controls */}
                               <div className="flex items-center gap-1 sm:gap-2">
                                 <button
@@ -889,13 +889,14 @@ export default function Home() {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
                                   </svg>
                                 </button>
-                                <button
-                                  onClick={() => removeTempItem(item.id)}
-                                  className="sm:hidden text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
-                                >
-                                  Remove
-                                </button>
                               </div>
+
+                              <button
+                                onClick={() => removeTempItem(item.id)}
+                                className="sm:hidden text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
+                              >
+                                Remove
+                              </button>
 
                               {/* Price and Remove */}
                               <div className="hidden sm:flex text-right flex-row items-center gap-2">
