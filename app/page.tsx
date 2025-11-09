@@ -558,38 +558,6 @@ export default function Home() {
       {/* Hero Section - Following Shopflo's Design */}
       <section className="relative px-4 pt-20 pb-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Badge - New feature announcement like Shopflo */}
-          <div className="animate-fade-in-up mb-8">
-            <span className="inline-flex items-center rounded-full bg-green-50 px-4 py-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-              ✨ New wellness line now available
-            </span>
-          </div>
-
-          {/* Main Headline - Bold and Impactful like Shopflo */}
-          <h1 className="animate-fade-in-up mx-auto max-w-3xl text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-            Your wellness customers are
-            <span className="block text-green-600 metric-number">ready to transform</span>
-          </h1>
-          
-          {/* Subheading - Clear value proposition */}
-          <p className="animate-fade-in-up mx-auto mt-6 max-w-2xl text-xl text-gray-600 leading-relaxed">
-            Increase your customer satisfaction with UB Naturals&apos; premium, science-backed natural products and sustainable wellness solutions.
-          </p>
-
-          {/* CTA Section - Email capture like Shopflo */}
-          <div className="animate-fade-in-up mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <div className="flex w-full max-w-md shadow-lg rounded-lg overflow-hidden">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 border-0 px-4 py-4 text-gray-900 placeholder-gray-500 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-              />
-              <button className="btn-primary bg-green-600 px-8 py-4 font-semibold text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all">
-                Get Started
-              </button>
-            </div>
-          </div>
-
           {/* Demo Checkout Button */}
           <div className="animate-fade-in-up mt-8">
             <button 
@@ -609,66 +577,6 @@ export default function Home() {
               }}
             >
               🛒 Express Checkout Demo
-            </button>
-          </div>
-
-          {/* Form Success Message Area - Shopflo style */}
-          <div className="mt-4">
-            <p className="text-sm text-gray-500 opacity-0 transition-opacity">
-              Thank you! Your submission has been received!
-            </p>
-            {/* Error message - would be conditionally shown */}
-            <p className="text-sm text-red-500 hidden opacity-0 transition-opacity">
-              Oops! Something went wrong while submitting the form.
-            </p>
-          </div>
-
-          {/* Trust Indicators - Like Shopflo's brand logos */}
-          <div className="animate-fade-in-up mt-20">
-            <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-              Trusted by 10,000+ wellness brands
-            </p>
-            
-            {/* Brand/Partner Logos - Shopflo style */}
-            <div className="mt-8 flex items-center justify-center gap-8 flex-wrap">
-              <div className="trust-logo opacity-60 hover:opacity-100 h-16 w-32 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-sm font-semibold text-gray-600">Organic Co.</span>
-              </div>
-              <div className="trust-logo opacity-60 hover:opacity-100 h-16 w-32 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-sm font-semibold text-gray-600">Pure Labs</span>
-              </div>
-              <div className="trust-logo opacity-60 hover:opacity-100 h-16 w-32 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-sm font-semibold text-gray-600">Green Life</span>
-              </div>
-              <div className="trust-logo opacity-60 hover:opacity-100 h-16 w-32 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-sm font-semibold text-gray-600">Wellness+</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Key Stats - Shopflo style metrics */}
-          <div className="animate-fade-in-up mt-20 grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div className="text-center p-6">
-              <div className="text-4xl font-bold metric-number mb-2">+98%</div>
-              <div className="text-sm text-gray-600 font-medium">Increase in customer satisfaction for UB Naturals brands</div>
-            </div>
-            <div className="text-center p-6">
-              <div className="text-4xl font-bold metric-number mb-2">+156%</div>
-              <div className="text-sm text-gray-600 font-medium">Increase in repeat purchases</div>
-            </div>
-            <div className="text-center p-6">
-              <div className="text-4xl font-bold metric-number mb-2">+67%</div>
-              <div className="text-sm text-gray-600 font-medium">Increase in customer lifetime value</div>
-            </div>
-          </div>
-
-          {/* Additional CTA Section - Shopflo style */}
-          <div className="animate-fade-in-up mt-16 bg-green-50 rounded-2xl p-8 border border-green-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Go live with us in less than a week!
-            </h3>
-            <button className="btn-primary bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all">
-              Start Your Transformation
             </button>
           </div>
         </div>
