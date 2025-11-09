@@ -819,7 +819,7 @@ export default function Home() {
                       ) : (
                         // Editing view
                         tempCartItems.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
+                          <div key={item.id} className="flex items-center gap-3 sm:gap-4 p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
                             <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white border border-gray-200 flex-shrink-0">
                                 <img 
@@ -830,10 +830,12 @@ export default function Home() {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
-                                <p className="text-xs sm:text-sm text-gray-600">{item.size}</p>
+                                <p className="text-xs sm:text-sm text-gray-600">
+                                  {item.size} · ₹{(item.price * item.quantity).toLocaleString()}
+                                </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
                               {/* Quantity Controls */}
                               <div className="flex items-center gap-1 sm:gap-2">
                                 <button
@@ -887,22 +889,21 @@ export default function Home() {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7H5" />
                                   </svg>
                                 </button>
+                                <button
+                                  onClick={() => removeTempItem(item.id)}
+                                  className="sm:hidden text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
+                                >
+                                  Remove
+                                </button>
                               </div>
-                              
+
                               {/* Price and Remove */}
-                              <div className="text-right flex flex-col sm:flex-row items-end sm:items-center gap-1 sm:gap-2">
-                                <div>
-                                  <div className="font-semibold text-gray-900 text-sm sm:text-base">₹{(item.price * item.quantity).toLocaleString()}</div>
-                                  {item.quantity > 1 && (
-                                    <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
-                                  )}
-                                </div>
+                              <div className="hidden sm:flex text-right flex-row items-center gap-2">
                                 <button
                                   onClick={() => removeTempItem(item.id)}
                                   className="text-xs font-medium text-red-500 hover:text-red-700 transition-colors"
                                 >
-                                  <span className="hidden sm:inline">Remove</span>
-                                  <span className="sm:hidden">×</span>
+                                  Remove
                                 </button>
                               </div>
                             </div>
@@ -926,7 +927,7 @@ export default function Home() {
 
                   {/* Upsell/Cross-sell Section */}
                   <div className="space-y-3 sm:space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+                    <div className="flex flex-row flex-wrap sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
                       <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1.5 sm:gap-2">
                         <svg className="w-4 h-4 sm:w-5 sm:h-5" style={{color: 'var(--phthalo-green)'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -1408,8 +1409,7 @@ export default function Home() {
                                   Save ₹{Math.round(totalSavings)} + Free Shipping
                                 </p>
                                 <p className="mt-1 text-sm sm:text-base font-semibold leading-relaxed">
-                                  <span className="hidden sm:inline">Great choice! You save ₹{Math.round(totalSavings)}</span>
-                                  <span className="sm:hidden">Save ₹{Math.round(totalSavings)} • FREE shipping • Max discounts</span>
+                                  <span>Great choice! You save ₹{Math.round(totalSavings)}</span>
                                 </p>
                               </div>
                             </div>
@@ -1425,8 +1425,7 @@ export default function Home() {
                                   ₹99 COD Fee + ₹{Math.round(totalSavings)} Extra
                                 </p>
                                 <p className="mt-1 text-sm sm:text-base font-semibold leading-relaxed">
-                                  <span className="hidden sm:inline">Switch to Razorpay to save!</span>
-                                  <span className="sm:hidden">₹{Math.round(totalSavings)} extra • ₹99 shipping • Switch to save!</span>
+                                  <span>Switch to Razorpay to save!</span>
                                 </p>
                               </div>
                             </div>
@@ -1471,7 +1470,7 @@ export default function Home() {
                 <div className="px-3 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-sm border-t border-white/20">
                   <div className="flex items-center justify-center gap-3 sm:gap-6 text-xs">
                     <div className="flex items-center gap-1 sm:gap-2 text-white/80">
-                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                      <svg className={`w-3 h-3 sm:w-4 sm:h-4 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                       </svg>
                       <span className="font-medium text-xs">
@@ -1480,7 +1479,7 @@ export default function Home() {
                       </span>
                     </div>
                     <div className="flex items-center gap-1 sm:gap-2 text-white/80">
-                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                      <svg className={`w-3 h-3 sm:w-4 sm:h-4 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                       </svg>
                       <span className="font-medium text-xs">
@@ -1489,7 +1488,7 @@ export default function Home() {
                       </span>
                     </div>
                     <div className="flex items-center gap-1 sm:gap-2 text-white/80">
-                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                      <svg className={`w-3 h-3 sm:w-4 sm:h-4 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
                       <span className="font-medium text-xs">
