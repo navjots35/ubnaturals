@@ -808,7 +808,7 @@ export default function Home() {
                             </div>
                             <div className="text-right flex items-center gap-2 flex-shrink-0">
                               <div>
-                                <div className="font-semibold text-gray-900 text-sm sm:text-base">₹{(item.price * item.quantity).toLocaleString()}</div>
+                                <div className="font-semibold text-gray-900 text-sm sm:text-base">₹{Math.round(item.price * item.quantity).toLocaleString()}</div>
                                 {item.quantity > 1 && (
                                   <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
                                 )}
@@ -831,7 +831,7 @@ export default function Home() {
                               <div className="min-w-0 flex-1">
                                 <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
                                 <p className="text-xs sm:text-sm text-gray-600">
-                                  {item.size} · ₹{(item.price * item.quantity).toLocaleString()}
+                                  {item.size} · ₹{Math.round(item.price * item.quantity).toLocaleString()}
                                 </p>
                               </div>
                             </div>
@@ -1196,7 +1196,7 @@ export default function Home() {
                             <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                               <div className="flex justify-between">
                                 <span className="text-gray-600">Subtotal ({(isEditingOrder ? tempCartItems : cartItems).reduce((sum, item) => sum + item.quantity, 0)} items)</span>
-                                <span className="font-semibold text-green-600">₹{pricing.subtotal.toLocaleString()}</span>
+                                <span className="font-semibold text-green-600">₹{Math.round(pricing.subtotal).toLocaleString()}</span>
                               </div>
                               
                               <div className="space-y-1 border-l-4 border-green-500 pl-2 sm:pl-3 bg-green-25">
@@ -1230,7 +1230,7 @@ export default function Home() {
                               
                               <div className="border-t pt-2 flex justify-between font-bold text-base sm:text-lg text-gray-900">
                                 <span>Total</span>
-                                <span style={{color: 'var(--phthalo-green)'}}>₹{pricing.finalTotal.toLocaleString()}</span>
+                                <span style={{color: 'var(--phthalo-green)'}}>₹{Math.round(pricing.finalTotal).toLocaleString()}</span>
                               </div>
                             </div>
                           </div>
@@ -1454,7 +1454,7 @@ export default function Home() {
                             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                             </svg>
-                            <span>Pay ₹{pricing.finalTotal.toLocaleString()} Securely</span>
+                            <span>Pay ₹{Math.round(pricing.finalTotal).toLocaleString()} Securely</span>
                             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse" style={{backgroundColor: 'var(--phthalo-green)'}}></div>
                           </div>
                         </button>
