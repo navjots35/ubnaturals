@@ -1325,8 +1325,12 @@ export default function Home() {
 
               {/* Sticky Footer Bar */}
               <div className="sticky bottom-0" style={{
-                background: 'linear-gradient(135deg, #194D3A 0%, #194D3A 100%)',
-                boxShadow: '0 -8px 32px rgba(0, 0, 0, 0.15), 0 -4px 16px rgba(0, 0, 0, 0.1)'
+                background: paymentMethod === 'cod'
+                  ? 'linear-gradient(135deg, #7B341E 0%, #B45309 100%)'
+                  : 'linear-gradient(135deg, #194D3A 0%, #194D3A 100%)',
+                boxShadow: paymentMethod === 'cod'
+                  ? '0 -8px 32px rgba(191, 72, 0, 0.25), 0 -4px 16px rgba(191, 72, 0, 0.15)'
+                  : '0 -8px 32px rgba(0, 0, 0, 0.15), 0 -4px 16px rgba(0, 0, 0, 0.1)'
               }}>
                 {/* Payment Method Selection & Messaging */}
                 {(() => {
@@ -1391,26 +1395,40 @@ export default function Home() {
                         </div>
                         
                         {/* Optimized Messaging for Selected Method */}
-                        <div className="mt-2 sm:mt-3">
+                        <div className="mt-3 sm:mt-4">
                           {paymentMethod === 'razorpay' ? (
-                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-green-100 bg-green-600/30 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg backdrop-blur-sm border border-green-400/30">
-                              <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                              </svg>
-                              <span className="font-semibold">
-                                <span className="hidden sm:inline">Great choice! You save ₹{Math.round(totalSavings)} • FREE shipping • Maximum discounts • Faster delivery</span>
-                                <span className="sm:hidden">Save ₹{Math.round(totalSavings)} • FREE shipping • Max discounts</span>
-                              </span>
+                            <div className="flex items-start gap-3 sm:gap-4 rounded-xl border-2 px-3 sm:px-4 py-3 sm:py-4 shadow-[0_16px_40px_rgba(0,0,0,0.25)] bg-gradient-to-r from-white/95 via-green-50/90 to-white/95 border-green-300 text-green-900">
+                              <div className="shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
+                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.745 3.745 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                </svg>
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs sm:text-sm uppercase tracking-wide font-semibold text-green-800/80">
+                                  Save ₹{Math.round(totalSavings)} + Free Shipping
+                                </p>
+                                <p className="mt-1 text-sm sm:text-base font-semibold leading-relaxed">
+                                  <span className="hidden sm:inline">Great choice! You save ₹{Math.round(totalSavings)}</span>
+                                  <span className="sm:hidden">Save ₹{Math.round(totalSavings)} • FREE shipping • Max discounts</span>
+                                </p>
+                              </div>
                             </div>
                           ) : (
-                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-orange-100 bg-orange-600/30 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg backdrop-blur-sm border border-orange-400/30">
-                              <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                              </svg>
-                              <span className="font-semibold">
-                                <span className="hidden sm:inline">You&apos;re paying ₹{Math.round(totalSavings)} extra • ₹99 shipping fee • Switch to Prepaid to save!</span>
-                                <span className="sm:hidden">₹{Math.round(totalSavings)} extra • ₹99 shipping • Switch to save!</span>
-                              </span>
+                            <div className="flex items-start gap-3 sm:gap-4 rounded-xl border-2 px-3 sm:px-4 py-3 sm:py-4 shadow-[0_16px_40px_rgba(0,0,0,0.25)] bg-gradient-to-r from-white/95 via-orange-50/90 to-white/95 border-orange-300 text-orange-900">
+                              <div className="shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
+                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-xs sm:text-sm uppercase tracking-wide font-semibold text-orange-800/80">
+                                  ₹99 COD Fee + ₹{Math.round(totalSavings)} Extra
+                                </p>
+                                <p className="mt-1 text-sm sm:text-base font-semibold leading-relaxed">
+                                  <span className="hidden sm:inline">Switch to Razorpay to save!</span>
+                                  <span className="sm:hidden">₹{Math.round(totalSavings)} extra • ₹99 shipping • Switch to save!</span>
+                                </p>
+                              </div>
                             </div>
                           )}
                         </div>
