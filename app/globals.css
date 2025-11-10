@@ -246,3 +246,23 @@ body {
 .sticky-footer {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
 }
+
+/* Responsive optimizations for 1280x800 viewport */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  /* Optimize modal for 1280x800 screens */
+  .modal-content {
+    scrollbar-width: thin;
+  }
+  
+  /* Ensure proper spacing for larger screens */
+  .modal-enter {
+    max-height: calc(100vh - 2rem);
+  }
+}
+
+/* Ensure modal doesn't get too narrow on small screens */
+@media (max-width: 640px) {
+  .modal-enter {
+    max-width: 100vw !important;
+  }
+}
