@@ -236,6 +236,9 @@ export default function Home() {
   const [appliedCoupon, setAppliedCoupon] = useState<{code: string, discount: number, type: 'percentage' | 'fixed'} | null>(null);
   const [couponError, setCouponError] = useState('');
   const [isOrderSummaryLoading, setIsOrderSummaryLoading] = useState(false);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [previousPaymentMethod, setPreviousPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
+  const [popupMessage, setPopupMessage] = useState<{type: 'saving' | 'extra', amount: number, savings?: number} | null>(null);
 
   // Helper function to simulate server delay with loading state
   const simulateServerDelay = (callback: () => void) => {
@@ -478,6 +481,53 @@ export default function Home() {
     }
   }, [cartItems, isEditingOrder]);
 
+  // Handle payment method change with popup
+  const handlePaymentMethodChange = (newMethod: 'razorpay' | 'cod') => {
+    if (newMethod === previousPaymentMethod) {
+      setPaymentMethod(newMethod);
+      return;
+    }
+
+    const itemsToUse = isEditingOrder ? tempCartItems : cartItems;
+    const subtotal = itemsToUse.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    // Calculate prepaid pricing
+    const prepaidDiscounts = calculateDiscounts(true);
+    const prepaidDiscountAmount = (subtotal * prepaidDiscounts.total) / 100;
+    const prepaidGst = Math.round((subtotal - prepaidDiscountAmount) * 0.05);
+    const prepaidTotal = subtotal - prepaidDiscountAmount + 0 + prepaidGst;
+    
+    // Calculate COD pricing
+    const codDiscounts = calculateDiscounts(false);
+    const codDiscountAmount = (subtotal * codDiscounts.total) / 100;
+    const codGst = Math.round((subtotal - codDiscountAmount) * 0.05);
+    const codTotal = subtotal - codDiscountAmount + 99 + codGst;
+    
+    const totalSavings = codTotal - prepaidTotal;
+
+    // Update payment method
+    setPaymentMethod(newMethod);
+
+    // Show popup based on switch direction
+    if (newMethod === 'razorpay') {
+      // Switching TO razorpay (saving money)
+      setPopupMessage({
+        type: 'saving',
+        amount: Math.round(totalSavings)
+      });
+    } else {
+      // Switching TO cod (paying extra)
+      setPopupMessage({
+        type: 'extra',
+        amount: Math.round(totalSavings),
+        savings: Math.round(totalSavings)
+      });
+    }
+    
+    setShowPaymentPopup(true);
+    setPreviousPaymentMethod(newMethod);
+  };
+
   // Calculate dynamic discounts
   const calculateDiscounts = (isPrepaid: boolean): DiscountBreakdown => {
     const itemsToUse = isEditingOrder ? tempCartItems : cartItems;
@@ -595,7 +645,175 @@ export default function Home() {
           <div className="absolute right-0 top-0 bottom-0 w-full max-w-[40vw] bg-white shadow-2xl modal-enter overflow-hidden border border-gray-200 
                          md:right-4 md:top-4 md:bottom-4 md:rounded-2xl
                          sm:rounded-none sm:border-0">
-            <div className="flex flex-col h-full">
+            {/* Payment Method Switch Popup */}
+            {showPaymentPopup && popupMessage && (
+              <>
+                {/* Backdrop overlay to lock background */}
+                <div 
+                  className="absolute inset-0 z-[59] bg-white/30 backdrop-blur-[1px]"
+                  onClick={() => setShowPaymentPopup(false)}
+                />
+                {/* Popup */}
+                <div className="absolute inset-0 z-[60] flex items-center justify-center p-3 pointer-events-none">
+                  <div className={`relative rounded-2xl shadow-2xl p-5 sm:p-6 max-w-md w-full pointer-events-auto animate-fade-in-up border-2 ${
+                    popupMessage.type === 'extra' 
+                      ? 'bg-gradient-to-br from-orange-50 to-white border-orange-300'
+                      : 'bg-gradient-to-br from-green-50 to-white border-green-300'
+                  }`}
+                       style={{
+                         background: popupMessage.type === 'extra'
+                           ? 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)'
+                           : 'linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%)',
+                         boxShadow: popupMessage.type === 'extra'
+                           ? '0 20px 60px rgba(234, 88, 12, 0.25), 0 0 0 1px rgba(234, 88, 12, 0.15)'
+                           : '0 20px 60px rgba(26, 77, 58, 0.25), 0 0 0 1px rgba(26, 77, 58, 0.15)'
+                       }}>
+                    {/* Close Button */}
+                    <button
+                      onClick={() => setShowPaymentPopup(false)}
+                      className={`absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full transition-all hover:scale-110 ${
+                        popupMessage.type === 'extra'
+                          ? 'bg-orange-100 hover:bg-orange-200 text-orange-700'
+                          : 'bg-green-100 hover:bg-green-200 text-green-700'
+                      }`}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+
+                    {/* Content */}
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      {/* Status Badge */}
+                      <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${
+                        popupMessage.type === 'extra'
+                          ? 'bg-orange-100 text-orange-700'
+                          : 'bg-green-100 text-green-700'
+                      }`}>
+                        {popupMessage.type === 'saving' ? (
+                          <>
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
+                            </svg>
+                            <span>Great Choice!</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                            </svg>
+                            <span>Notice</span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* 3D Rupee Icon with Amount Badge */}
+                      <div className="relative flex items-center justify-center">
+                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center">
+                          <img 
+                            src="/image.png" 
+                            alt="Rupee" 
+                            className="w-full h-full object-contain drop-shadow-xl animate-bounce-slow"
+                            style={{ filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))' }}
+                          />
+                        </div>
+                        {/* Amount Badge */}
+                        <div className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full shadow-lg ${
+                          popupMessage.type === 'extra'
+                            ? 'bg-orange-500 text-white'
+                            : 'bg-green-600 text-white'
+                        }`}>
+                          <span className="text-sm font-bold">₹{popupMessage.amount.toLocaleString()}</span>
+                        </div>
+                      </div>
+
+                      {/* Main Message */}
+                      {popupMessage.type === 'saving' ? (
+                        <div className="w-full space-y-2.5">
+                          {/* Savings Amount - Combined with heading */}
+                          <div className="text-center">
+                            <h3 className="text-lg sm:text-xl font-bold mb-1" style={{color: 'var(--phthalo-green)'}}>
+                              You&apos;re Saving ₹{popupMessage.amount.toLocaleString()}!
+                            </h3>
+                            <p className="text-xs text-gray-600">Smart choice! You&apos;re getting the best deal with online payment.</p>
+                          </div>
+
+                          {/* Compact Benefits List - Horizontal */}
+                          <div className="bg-green-50 rounded-lg p-2.5 border border-green-200">
+                            <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+                              <div className="flex items-center gap-1.5 text-xs">
+                                <svg className="w-3.5 h-3.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">Free Shipping</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs">
+                              <svg className="w-3.5 h-3.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">Bank Offers</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs">
+                              <svg className="w-3.5 h-3.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">Cashbacks</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full space-y-2.5">
+                          {/* Extra Charges - Combined with heading */}
+                          <div className="text-center">
+                            <h3 className="text-lg sm:text-xl font-bold mb-1 text-gray-900">
+                              You&apos;re Paying Extra ₹{popupMessage.amount.toLocaleString()} with COD
+                            </h3>
+                            
+                          </div>
+
+                          {/* Compact Drawbacks List - Horizontal */}
+                          <div className="bg-orange-50 rounded-lg p-2.5 border border-orange-200">
+                            <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+                              <div className="flex items-center gap-1.5 text-xs">
+                                <svg className="w-3.5 h-3.5 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">No Free Shipping</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs">
+                                <svg className="w-3.5 h-3.5 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">No Bank Offers</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs">
+                                <svg className="w-3.5 h-3.5 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                <span className="text-gray-700 font-medium">No Cashbacks</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Call to Action */}
+                          <div className="bg-green-50 rounded-lg p-2.5 border border-green-200">
+                            <div className="flex items-center justify-center gap-2">
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                              </svg>
+                              <span className="text-xs text-gray-700 font-medium">Switch to Razorpay and save</span>
+                              <span className="text-sm font-bold text-green-600">₹{popupMessage.savings?.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+            <div className={`flex flex-col h-full ${showPaymentPopup ? 'pointer-events-none' : ''}`}>
               {/* Minimal Header */}
               <div className="flex items-center justify-between p-2.5 sm:p-3 border-b border-gray-200">
                 <h2 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1.5 sm:gap-2">
@@ -1234,11 +1452,12 @@ export default function Home() {
               </div>
 
               {/* Sticky Footer Bar */}
-              <div className="sticky bottom-0" style={{
-                background: paymentMethod === 'cod' ? '#331500' : '#0B1C15',
-                boxShadow: paymentMethod === 'cod'
-                  ? '0 -8px 32px rgba(191, 72, 0, 0.25), 0 -4px 16px rgba(191, 72, 0, 0.15)'
-                  : '0 -8px 32px rgba(0, 0, 0, 0.15), 0 -4px 16px rgba(0, 0, 0, 0.1)'
+              <div className={`sticky bottom-0 border-t ${
+                paymentMethod === 'cod'
+                  ? 'bg-gradient-to-br from-orange-50 to-white border-orange-200'
+                  : 'bg-gradient-to-br from-green-50 to-white border-green-200'
+              }`} style={{
+                boxShadow: '0 -8px 32px rgba(0, 0, 0, 0.1), 0 -4px 16px rgba(0, 0, 0, 0.05)'
               }}>
                 {/* Payment Method Selection & Messaging */}
                 {(() => {
@@ -1262,35 +1481,36 @@ export default function Home() {
                   return (
                     <>
                       {/* Payment Method Selector */}
-                      <div className="px-2.5 sm:px-3 py-2 sm:py-3 border-b border-white/20">
+                      <div className={`px-2.5 sm:px-3 py-2 sm:py-3 border-b ${
+                        paymentMethod === 'cod' ? 'border-orange-200' : 'border-green-200'
+                      }`}>
                         <div className="flex items-center gap-2">
                           {/* Payment Method Buttons */}
                           <div className="flex gap-1.5 sm:gap-2 flex-1">
                             <button
-                              onClick={() => setPaymentMethod('razorpay')}
+                              onClick={() => handlePaymentMethodChange('razorpay')}
                               className={`flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg border-2 transition-all ${
                                 paymentMethod === 'razorpay'
-                                  ? 'border-white bg-white text-green-700 shadow-lg'
-                                  : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10'
+                                  ? 'border-green-500 bg-white text-gray-900 shadow-lg'
+                                  : 'border-gray-300 text-gray-700 hover:border-green-300 hover:bg-green-50'
                               }`}
                             >
                               <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border-2 ${
-                                paymentMethod === 'razorpay' ? 'border-green-500 bg-green-500' : 'border-white/60'
+                                paymentMethod === 'razorpay' ? 'border-green-500 bg-green-500' : 'border-gray-400'
                               }`}></div>
                               <span className="font-semibold text-xs">Pay with Razorpay</span>
-                              
                             </button>
                             
                             <button
-                              onClick={() => setPaymentMethod('cod')}
+                              onClick={() => handlePaymentMethodChange('cod')}
                               className={`flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg border-2 transition-all ${
                                 paymentMethod === 'cod'
-                                  ? 'border-orange-300 bg-orange-100 text-orange-800 shadow-lg'
-                                  : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10'
+                                  ? 'border-orange-500 bg-white text-gray-900 shadow-lg'
+                                  : 'border-gray-300 text-gray-700 hover:border-orange-300 hover:bg-orange-50'
                               }`}
                             >
                               <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border-2 ${
-                                paymentMethod === 'cod' ? 'border-orange-500 bg-orange-500' : 'border-white/60'
+                                paymentMethod === 'cod' ? 'border-orange-500 bg-orange-500' : 'border-gray-400'
                               }`}></div>
                               <span className="font-semibold text-xs">
                                 <span className="hidden sm:inline">Cash on Delivery</span>
@@ -1299,8 +1519,6 @@ export default function Home() {
                             </button>
                           </div>
                         </div>
-                        
-                        
                         
                       </div>
                     </>
@@ -1314,12 +1532,13 @@ export default function Home() {
                     return (
                       <div className="space-y-1.5 sm:space-y-2">
                         <button 
-                          className="w-full py-2 sm:py-2.5 rounded-lg font-semibold text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-white/50 transition-all shadow-2xl relative overflow-hidden border-2 border-white/20 hover:border-white/40 hover:shadow-3xl transform hover:scale-[1.02]"
+                          className="w-full py-2 sm:py-2.5 rounded-lg font-semibold text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all shadow-lg relative overflow-hidden hover:shadow-xl transform hover:scale-[1.02]"
                           style={{
-                            background: paymentMethod === 'cod' ? '#FFEDD4' : 'white',
-                            color: paymentMethod === 'cod' ? '#000000' : 'var(--phthalo-green)'
+                            background: paymentMethod === 'cod' ? '#331500' : '#0B1C15',
+                            color: 'white'
                           }}
                         >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shimmer"></div>
                           <div className="relative flex items-center justify-center gap-1.5 sm:gap-2">
                             {paymentMethod === 'razorpay' ? (
                               <>
@@ -1327,7 +1546,7 @@ export default function Home() {
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                                 </svg>
                                 <span>Pay ₹{Math.round(pricing.finalTotal).toLocaleString()} Securely</span>
-                                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{backgroundColor: 'var(--phthalo-green)'}}></div>
+                                <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-white"></div>
                               </>
                             ) : (
                               <>
@@ -1339,7 +1558,9 @@ export default function Home() {
                             )}
                           </div>
                         </button>
-                        <p className="text-center text-xs text-white/70">
+                        <p className={`text-center text-xs ${
+                          paymentMethod === 'cod' ? 'text-gray-600' : 'text-gray-600'
+                        }`}>
                           Your payment information is encrypted and never stored
                         </p>
                       </div>
@@ -1348,10 +1569,12 @@ export default function Home() {
                 </div>
 
                 {/* Security Trust Indicators - Bottom of Sticky Bar */}
-                <div className="px-2.5 sm:px-3 py-1.5 sm:py-2 border-t border-white/20">
+                <div className={`px-2.5 sm:px-3 py-1.5 sm:py-2 border-t ${
+                  paymentMethod === 'cod' ? 'border-orange-200' : 'border-green-200'
+                }`}>
                   <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs">
-                    <div className="flex items-center gap-1 text-white/80">
-                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <div className="flex items-center gap-1 text-gray-700">
+                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-600' : 'text-green-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623A11.99 11.99 0 0 0 20.402 6 11.959 11.959 0 0 1 12 2.713Z" />
                       </svg>
                       <span className="font-medium text-xs">
@@ -1359,8 +1582,8 @@ export default function Home() {
                         <span className="sm:hidden">SSL</span>
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-white/80">
-                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <div className="flex items-center gap-1 text-gray-700">
+                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-600' : 'text-green-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                       </svg>
                       <span className="font-medium text-xs">
@@ -1368,8 +1591,8 @@ export default function Home() {
                         <span className="sm:hidden">Secure</span>
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-white/80">
-                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-200' : 'text-green-300'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <div className="flex items-center gap-1 text-gray-700">
+                      <svg className={`w-3 h-3 ${paymentMethod === 'cod' ? 'text-orange-600' : 'text-green-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                       </svg>
                       <span className="font-medium text-xs">
