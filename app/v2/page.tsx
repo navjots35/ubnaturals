@@ -761,21 +761,21 @@ export default function Home() {
 
                           {/* Compact Drawbacks List - Horizontal */}
                           <div className="bg-white/10 rounded-lg p-2.5 border border-white/20 backdrop-blur-sm">
-                            <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-                              <div className="flex items-center gap-1.5 text-xs">
-                                <svg className="w-3.5 h-3.5 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                            <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+                              <div className="flex items-center gap-1 text-[10px] sm:text-xs">
+                                <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                                 <span className="text-white/90 font-medium">No Free Shipping</span>
                               </div>
-                              <div className="flex items-center gap-1.5 text-xs">
-                                <svg className="w-3.5 h-3.5 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                              <div className="flex items-center gap-1 text-[10px] sm:text-xs">
+                                <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                                 <span className="text-white/90 font-medium">No Bank Offers</span>
                               </div>
-                              <div className="flex items-center gap-1.5 text-xs">
-                                <svg className="w-3.5 h-3.5 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                              <div className="flex items-center gap-1 text-[10px] sm:text-xs">
+                                <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                                 <span className="text-white/90 font-medium">No Cashbacks</span>
